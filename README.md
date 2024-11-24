@@ -1,5 +1,7 @@
 COMP 3612 Assignment #2: Single-Page App
 
+! Intended design doesn't appear to be accurate in Safari. Google Chrome, Firefox, or Edge displays it accurately.
+
 This project implements a single page F1 Racing Dashboard, emphasizing the use of hiding modals. The data is presented with emphasis on contrast for visibility. To communicate that an item is clickable, hover styles using color changes, background color changes and borders were used following the red and black theme throughout.
 
 **Limitations:** 
