@@ -438,7 +438,7 @@ function renderQualifyingResults(data) {
             let cmpDriver = result.driver.forename + ' ' + result.driver.surname;
             let cmpCons = result.constructor.name;
             tableHTML += `
-                <tr class="rounded-lg border-t">
+                <tr class="rounded-lg border-t hide-scrollbar">
                     <td class="rounded-lg text-xs font-bold px-2 py-2 text-s text-white">${result.position}</td>
                     <td id="clickableDriver" class="flex items-center text-xs driver-name px-2 py-2 text-s text-white hover:text-red-500" 
                         data-ref-season="${result.race.year}"
@@ -692,7 +692,7 @@ function displayFavorites() {
             listItem.classList.add('text-white', 'p-2', 'border-b', 'border-gray-600');
             listItem.innerHTML = `
                 <p> ${constructorRef}</p>
-                <button class="text-red-500" onclick="removeFromFavorites('${constructorRef}', 'constructor')">Remove</button>
+                <button class="text-red-600" onclick="removeFromFavorites('${constructorRef}', 'constructor')">Remove</button>
             `;
             favoriteConstructorsContainer.appendChild(listItem);
         });
@@ -773,10 +773,6 @@ document.getElementById('clearFavorites').addEventListener('click', function() {
     displayFavorites();  // Refresh the display
 });
 
-// Handle "Close" button click
-document.getElementById('closeFavoritesModal').addEventListener('click', function() {
-    document.getElementById('favoritesModal').classList.add('hidden');
-});
 
 function openFavoritesModal() {
     displayFavorites();  // Populate the modal with current favorites
