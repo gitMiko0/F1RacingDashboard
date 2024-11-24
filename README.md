@@ -5,7 +5,7 @@ COMP 3612 Assignment #2: Single-Page App
 This project implements a single page F1 Racing Dashboard, emphasizing the use of hiding modals. The data is presented with emphasis on contrast for visibility. To communicate that an item is clickable, hover styles using color changes, background color changes and borders were used following the red and black theme throughout.
 
 **Limitations:** 
-Due to time constraints, there are opportunities to refactor code such as functions for rendering race/qualifying results, favorites handling and some lengthy event handlers. As well, this version was not able to comply with the recommended flow in v1.4 (Nov.22,2024) of the project specifications; For the same reason, it also implements the favorite icon handling.
+Due to time constraints, there are opportunities to refactor code such as functions for rendering race/qualifying results, favorites handling and some lengthy event handlers. As well, this version was not able to comply with the recommended flow in v1.4 (Nov.22,2024) of the project specifications; For the same reason, it also implements the favorite icon handling. Additionally, loading animations were not implemented.
 
 **Notes on Styling:** 
 The implementation uses TailwindCSS for styling. It is worth noting that there were some issues faced using the blur and scrollbar styling through Tailwind, therefore there is a short instance CSS in the index.html file that mimics the class-oriented design to keep the implementation consistent.
