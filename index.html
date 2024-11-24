@@ -10,6 +10,40 @@
         .hidden { 
             display: none;
         }
+
+        /* Tailwind filters doesn't seem to work for these isntances... 
+        The class elements are meant to mimic the TailwindCSS class-oriented styling for consistency of code*/
+        .blur-background {
+            backdrop-filter: blur(5px); /* Blur background */
+        }
+
+        .text-shadow { /* This is mainly for the Grand Prix title visibility */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Offset-x | Offset-y | Blur-radius | Color */
+        }
+
+        /* Custom class for gray, thin, and rounded scrollbar */
+        .scrollbar-gray-thin::-webkit-scrollbar {
+        width: 8px; /* Thin scrollbar width */
+        }
+
+        .scrollbar-gray-thin::-webkit-scrollbar-track {
+            background: rgba(240, 240, 240, 0); /* Light gray with 50% opacity */
+        }
+
+        .scrollbar-gray-thin::-webkit-scrollbar-thumb {
+        background-color: #4f4f4f; /* Gray color for the thumb */
+        border-radius: 15px; /* Rounded corners */
+        }
+
+        .scrollbar-gray-thin::-webkit-scrollbar-thumb:hover {
+            background-color: #651414; /* Red on hover */
+        }
+
+
+
+        .change-hover:hover {
+            transform: scale(1.1); 
+    }
     </style>
 </head>
 <body class="bg-gray">
@@ -28,45 +62,6 @@
     </div>
 </nav>
 
-
-<style> 
-/* Tailwind filters doesn't seem to work for these isntances... 
-   The class elements are meant to mimic the TailwindCSS class-oriented styling for consistency of code*/
-    .blur-background {
-        backdrop-filter: blur(5px); /* Blur background */
-    }
-
-    .text-shadow { /* This is mainly for the Grand Prix title visibility */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Offset-x | Offset-y | Blur-radius | Color */
-    }
-
-    /* Custom class for gray, thin, and rounded scrollbar */
-    .scrollbar-gray-thin::-webkit-scrollbar {
-    width: 8px; /* Thin scrollbar width */
-    }
-
-    .scrollbar-gray-thin::-webkit-scrollbar-track {
-        background: rgba(240, 240, 240, 0); /* Light gray with 50% opacity */
-    }
-
-    .scrollbar-gray-thin::-webkit-scrollbar-thumb {
-    background-color: #4f4f4f; /* Gray color for the thumb */
-    border-radius: 15px; /* Rounded corners */
-    }
-
-    .scrollbar-gray-thin::-webkit-scrollbar-thumb:hover {
-        background-color: #651414; /* Red on hover */
-    }
-
-
-
-    .change-hover:hover {
-        transform: scale(1.1); 
-}
-</style>
-
-</style>
-    
 
     
 <!-- Main Container -->
