@@ -6,7 +6,7 @@ let favoriteDrivers = JSON.parse(localStorage.getItem('favoriteDrivers')) || [];
 let favoriteCircuits = JSON.parse(localStorage.getItem('favoriteCircuits')) || [];
 
 function getFavoriteIcon(type, ref) {
-    let iconHTML = '<img src="./images/tyre.png" class="h-6 w-6 favorite-icon">';
+    let iconHTML = '<img src="./images/tire.png" class="h-6 w-6 favorite-icon">';
     console.log("Stored favoriteDrivers:", favoriteDrivers);
     console.log("Stored favoriteConstructors:", favoriteConstructors);
     console.log("Stored favoriteCircuits:", favoriteCircuits);
@@ -21,6 +21,30 @@ function getFavoriteIcon(type, ref) {
     } else {
         return '';
     }
+}
+
+//message must be backticked if using a variable!
+//BUG: This function is super buggy, switching through race results make it inconsistent, sometimes notifications flat out don't show up.
+function showNotification(message, ref) {
+    console.log('Calling showNotification()');
+    let toFind = `faveNotification_${ref}`;
+    const notification = document.getElementById(toFind);
+    console.log(toFind);
+    
+    notification.textContent = message;
+    notification.classList.remove('hidden', 'opacity-0');
+    notification.classList.add('opacity-100');
+
+
+    // Remove the notification after the specified duration
+    setTimeout(() => {
+        notification.classList.remove('hidden');
+
+        // Delay to ensure the fade-out transition completes before hiding
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 100);  // Duration in ms
+    }, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -154,6 +178,7 @@ document.getElementById('browseView').addEventListener('click', function(event) 
                         <button id="addConstructorFavorite" data-cons="${constructorInfo.name}" class="mt-2 bg-gray-700 text-white p-2 hover:bg-red-900 rounded">
                         Add to Favorites
                         </button>
+                        <div id="faveNotification_${constructorInfo.ref}" class="hidden text-s bg-red-900 text-white p-2 mt-4 rounded shadow-lg"></div>
                     `;
 
                     // Attach the event listener to the "Add to Favorites" button
@@ -166,9 +191,10 @@ document.getElementById('browseView').addEventListener('click', function(event) 
                             favoriteConstructors.push(constructorRef);
                             const constructorElement = document.getElementById(constructorRef);
                             console.log("Constructor added to favorites:", constructorRef);
-                            markAsFavorite(constructorElement);
+                            showNotification(`${constructorRef} has been added to your favorites!`, constructorInfo.ref);
                             saveFavoritesToLocalStorage('constructor');  // Save to localStorage
                         } else {
+                            showNotification(`${constructorRef} is already in favorites!`, constructorInfo.ref);
                             console.log("Constructor is already in favorites:", constructorRef);
                         }
                     });
@@ -203,6 +229,7 @@ document.getElementById('browseView').addEventListener('click', function(event) 
                     <button id="addDriverFavorite" data-driver="${driver.forename} ${driver.surname}" class="mt-2 bg-gray-700 text-white p-2 hover:bg-red-900 rounded">
                         Add to Favorites
                         </button>
+                    <div id="faveNotification_${driver.ref}" class="hidden text-s bg-red-900 text-white p-2 mt-4 rounded shadow-lg"></div>
                 `;
                 // Attach the event listener to the "Add to Favorites" button
                 const addToFavoritesButton = document.getElementById('addDriverFavorite');
@@ -213,8 +240,10 @@ document.getElementById('browseView').addEventListener('click', function(event) 
                     if (!favoriteDrivers.includes(driverRef)) {
                         favoriteDrivers.push(driverRef);
                         console.log("Driver added to favorites:", driverRef);
+                        showNotification(`${driverRef} has been added to your favorites!`, driver.ref);
                         saveFavoritesToLocalStorage('driver');  // Save to localStorage
                     } else {
+                        showNotification(`${driverRef} is already in favorites.`, driver.ref);
                         console.log("Driver is already in favorites:", driverRef);
                     }
                 });
@@ -250,6 +279,7 @@ if (event.target.classList.contains('circuit-name')) {  // This checks if a circ
                     <button id="addCircuitFavorite" data-circuit="${circuit.name}" class="bg-gray-700 text-white p-2 hover:bg-red-900 rounded">
                         Add to Favorites
                     </button>
+                    <div id="faveNotification_${circuit.ref}" class="h-3/12 w-3/6 hidden text-s bg-red-900 text-white p-2 mt-4 rounded shadow-lg"></div>
                 `;
             } else {
                 console.error("circuitModalDetails element not found");
@@ -264,9 +294,11 @@ if (event.target.classList.contains('circuit-name')) {  // This checks if a circ
                 if (!favoriteCircuits.includes(circuitName)) {
                     favoriteCircuits.push(circuitName);
                     console.log("Circuit added to favorites:", circuitName);
+                    showNotification(`${circuitName} has been added to your favorites!`, circuit.ref);
                     saveFavoritesToLocalStorage('circuit');  // Save to localStorage
                 } else {
                     console.log("Circuit is already in favorites:", circuitName);
+                    showNotification(`${circuitName} has been added to your favorites!`, circuit.ref);
                 }
             });
 
@@ -406,7 +438,7 @@ function renderQualifyingResults(data) {
             let cmpDriver = result.driver.forename + ' ' + result.driver.surname;
             let cmpCons = result.constructor.name;
             tableHTML += `
-                <tr class="rounded-lg border-t hide-scrollbar">
+                <tr class="rounded-lg border-t">
                     <td class="rounded-lg text-xs font-bold px-2 py-2 text-s text-white">${result.position}</td>
                     <td id="clickableDriver" class="flex items-center text-xs driver-name px-2 py-2 text-s text-white hover:text-red-500" 
                         data-ref-season="${result.race.year}"
@@ -541,17 +573,23 @@ function renderCircuitDetails(raceId) {
                 const circuit = race.circuit;
                 const circuitDetailsElement = document.getElementById('circuitDetails');
 
-                // Populate the circuit and race details in the <p> element
+                // Populate the circuit and race details
                 circuitDetailsElement.innerHTML = `
-                    <p class="pb-0 pt-0 p-4"><strong>Round:</strong> ${race.round}</p>
-                    <p class="pb-0 pt-0 p-4"><strong>Year:</strong> ${race.year}</p>
-                    <p class="pb-0 pt-0 pr-2"><strong>Circuit Name: </strong> </p>
-                    <a data-circuitId="${circuit.id}" data-circuitName="${circuit.name}" 
-                        class="text-bold pb-0 pt-0 circuit-name text-red-500 hover:text-white">
+            <div class="flex items-center space-x-4">
+            <p class="pb-0 pt-0 p-4"><strong>Round:</strong> ${race.round}</p>
+            <p class="pb-0 pt-0 p-4"><strong>Year:</strong> ${race.year}</p>
+            <p class="pb-0 pt-0 pr-2"><strong>Circuit Name:</strong></p>
+            <strong><a data-circuitId="${circuit.id}" data-circuitName="${circuit.name}" 
+                        class="border-2 border-red-800 p-2 rounded-lg hover:text-red-700 text-white circuit-name">
                             ${circuit.name}
-                    </a>
-                    <p class="pb-0 pt-0 p-4"><strong>Date:</strong> ${race.date}</p>
-                    <a href="${circuit.url}" target="_blank" class="pb-0 pt-0 p-4 text-red-500 hover:text-white">Wikipedia</a>
+            </a></strong>
+            <p class="pb-0 pt-0 pr-2"><strong>Date:</strong> ${race.date}</p>
+            <a href="${circuit.url}" 
+                class="border-2 border-red-800 p-2 rounded-lg hover:text-red-700 text-white">
+                <strong>Wikipedia</strong>
+            </a>
+            </div>
+
                 `;
             } else {
                 console.error('No race data available.');
