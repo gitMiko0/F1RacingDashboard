@@ -5,47 +5,6 @@ let favoriteConstructors = JSON.parse(localStorage.getItem('favoriteConstructors
 let favoriteDrivers = JSON.parse(localStorage.getItem('favoriteDrivers')) || [];
 let favoriteCircuits = JSON.parse(localStorage.getItem('favoriteCircuits')) || [];
 
-function getFavoriteIcon(type, ref) {
-    let iconHTML = '<img src="./images/tire.png" class="h-6 w-6 favorite-icon">';
-    console.log("Stored favoriteDrivers:", favoriteDrivers);
-    console.log("Stored favoriteConstructors:", favoriteConstructors);
-    console.log("Stored favoriteCircuits:", favoriteCircuits);
-    console.log("Comparing ref:", ref);
-    
-    if (type === 'driver' && favoriteDrivers.includes(ref)) {
-        return iconHTML;
-    } else if (type === 'constructor' && favoriteConstructors.includes(ref)) {
-        return iconHTML;
-    } else if (type === 'circuit' && favoriteCircuits.includes(ref)){
-        return iconHTML;
-    } else {
-        return '';
-    }
-}
-
-//message must be backticked if using a variable!
-//BUG: This function is super buggy, switching through race results make it inconsistent, sometimes notifications flat out don't show up.
-function showNotification(message, ref) {
-    console.log('Calling showNotification()');
-    let toFind = `faveNotification_${ref}`;
-    const notification = document.getElementById(toFind);
-    console.log(toFind);
-    
-    notification.textContent = message;
-    notification.classList.remove('hidden', 'opacity-0');
-    notification.classList.add('opacity-100');
-
-
-    // Remove the notification after the specified duration
-    setTimeout(() => {
-        notification.classList.remove('hidden');
-
-        // Delay to ensure the fade-out transition completes before hiding
-        setTimeout(() => {
-            notification.classList.add('hidden');
-        }, 100);  // Duration in ms
-    }, 2000);
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     const homeView = document.getElementById('homeView');
@@ -231,7 +190,7 @@ document.getElementById('browseView').addEventListener('click', function(event) 
                         </button>
                     <div id="faveNotification_${driver.ref}" class="hidden text-s bg-red-900 text-white p-2 mt-4 rounded shadow-lg"></div>
                 `;
-                // Attach the event listener to the "Add to Favorites" button
+                // Attach the event listener to the "Add to Favorites" button, must be done here since dynamically generated
                 const addToFavoritesButton = document.getElementById('addDriverFavorite');
                 addToFavoritesButton.addEventListener('click', function() {
                     const driverRef = this.getAttribute('data-driver');
@@ -335,7 +294,7 @@ document.getElementById('closeDriverModal').addEventListener('click', function()
 
 // ---------------------------- Data Handling Functions ----------------------------------------------------
 // Function to fetch race data for the selected season and then save in cache for later use
-// Greatly improves performance after first fetch, but can be erroneous if cache is not clear beforehand.
+// Greatly improves performance after first fetch but can be erroneous (eg. undefined round data) if cache is not cleared beforehand.
 function fetchSeason(season) {
     const url = `${API_DOMAIN}/races.php?season=${season}`;
 
@@ -582,7 +541,7 @@ function renderCircuitDetails(raceId) {
             <strong><a data-circuitId="${circuit.id}" data-circuitName="${circuit.name}" 
                         class="border-2 border-red-800 p-2 rounded-lg hover:text-red-700 text-white circuit-name">
                             ${circuit.name}
-            </a></strong>
+            </a></strong> ${getFavoriteIcon('circuit', circuit.name)}
             <p class="pb-0 pt-0 pr-2"><strong>Date:</strong> ${race.date}</p>
             <a href="${circuit.url}" 
                 class="border-2 border-red-800 p-2 rounded-lg hover:text-red-700 text-white">
@@ -707,7 +666,7 @@ function displayFavorites() {
             listItem.classList.add('text-white', 'p-2', 'border-b', 'border-gray-600');
             listItem.innerHTML = `
                 <p> ${driverRef}</p>
-                <button class="text-red-500" onclick="removeFromFavorites('${driverRef}', 'driver')">Remove</button>
+                <button class="text-red-600" onclick="removeFromFavorites('${driverRef}', 'driver')">Remove</button>
             `;
             favoriteDriversContainer.appendChild(listItem);
         });
@@ -722,7 +681,7 @@ function displayFavorites() {
             listItem.classList.add('text-white', 'p-2', 'border-b', 'border-gray-600');
             listItem.innerHTML = `
                 <p> ${circuitRef}</p>
-                <button class="text-red-500" onclick="removeFromFavorites('${circuitRef}', 'circuit')">Remove</button>
+                <button class="text-red-600" onclick="removeFromFavorites('${circuitRef}', 'circuit')">Remove</button>
             `;
             favoriteCircuitsContainer.appendChild(listItem);
         });
@@ -796,4 +755,43 @@ function saveFavoritesToLocalStorage(category) {
     }
 }
   
-  
+function getFavoriteIcon(type, ref) {
+    let iconHTML = '<img src="./images/tire.png" class="h-6 w-6 favorite-icon">';
+    console.log("Stored favoriteDrivers:", favoriteDrivers);
+    console.log("Stored favoriteConstructors:", favoriteConstructors);
+    console.log("Stored favoriteCircuits:", favoriteCircuits);
+    console.log("Comparing ref:", ref);
+    
+    if (type === 'driver' && favoriteDrivers.includes(ref)) {
+        return iconHTML;
+    } else if (type === 'constructor' && favoriteConstructors.includes(ref)) {
+        return iconHTML;
+    } else if (type === 'circuit' && favoriteCircuits.includes(ref)){
+        return iconHTML;
+    } else {
+        return '';
+    }
+}
+
+//BUG: This function is super buggy, switching through race results make it inconsistent, sometimes notifications flat out don't show up after the favorites modal was closed.
+function showNotification(message, ref) {
+    console.log('Calling showNotification()');
+    let toFind = `faveNotification_${ref}`;
+    const notification = document.getElementById(toFind);
+    console.log(toFind);
+    
+    notification.textContent = message;
+    notification.classList.remove('hidden', 'opacity-0');
+    notification.classList.add('opacity-100');
+
+
+    // Remove the notification after the specified duration
+    setTimeout(() => {
+        notification.classList.remove('hidden');
+
+        // Delay to ensure the fade-out transition completes before hiding
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 100);  // Duration in ms
+    }, 2000);
+}
