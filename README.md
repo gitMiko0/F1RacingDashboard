@@ -13,11 +13,20 @@ The implementation uses TailwindCSS for styling. It is worth noting that there w
 **Added features:** This implementation includes a favorite icon beside the favorite drivers/constructors/circuits; There could be improvements on this as it simply searches the favorites and adds the icon upon re-rendering results. Additionally, this implementation allows the user to singly remove favorites in the favorites pop-up.
 
 **References**
+
 **F1 Logo**
+
 https://www.freepik.com/icon/f1_2418802#fromView=search&page=1&position=4&uuid=a9e82bbc-b0aa-4e55-b8fb-073e342dd579
+
 **Background**
+
 https://www.freepik.com/free-ai-image/automobile-racing-sports-competition_66622095.htm#fromView=keyword&page=1&position=2&uuid=127fc301-0290-4344-9744-f11cb440bcda
+
 **Dropdown Menu Styling**
+
 https://flowbite.com/docs/components/dropdowns/#:~:text=Dropdown%20example,of%20the%20dropdown%20menu%20element.
+
 **Circuit Placeholder**
+
 https://oversteer48.com/f1-circuits-from-space/
+
