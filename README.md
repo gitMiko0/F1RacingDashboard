@@ -1,4 +1,5 @@
 COMP 3612 Assignment #2: Single-Page App
+
  **Overview**
 This repository holds code that implements a single page F1 Racing Dashboard, emphasizing the use of hiding modals. The project aims to keep track of F1 Racing results for the years 2020-2023 using web APIs to retrieve data, allowing users to view specific driver, constructor and circuit details, as well as save their favorites. The implementation uses cacheing for the seasons data in order to significantly improve performane. In terms of design, the data is presented with emphasis on contrast for visibility. To communicate that an item is clickable, hover styles using color changes, background color changes and borders were used following the red and black theme throughout.
  
