@@ -1,4 +1,4 @@
-const API_DOMAIN = 'https://www.randyconnolly.com/funwebdev/3rd/api/f1';
+const API_DOMAIN = 'https://f1backend-black.vercel.app/';
 let seasonResults = {}; //global variable for cache access
 // Global arrays to store favorite items
 let favoriteConstructors = JSON.parse(localStorage.getItem('favoriteConstructors')) || [];
