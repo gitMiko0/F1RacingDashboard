@@ -520,7 +520,7 @@ function displayRaceResults(raceId) {
 }
 
 function renderCircuitDetails(raceId) {
-    const raceUrl = `${API_DOMAIN}/race/${raceId}`;
+    const raceUrl = `${API_DOMAIN}/results/race/${raceId}`;
 
     // Fetch the race details using the raceId
     fetch(raceUrl)
