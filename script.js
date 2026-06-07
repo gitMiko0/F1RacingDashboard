@@ -175,7 +175,7 @@ document.getElementById('browseView').addEventListener('click', function(event) 
         console.log('Driver ref:', driverRef);
 
         // Fetch driver data and display the driver modal
-        const driverUrl = `${API_DOMAIN}/drivers.php?ref=${driverRef}`;
+        const driverUrl = `${API_DOMAIN}/drivers/${driverRef}`;
         fetch(driverUrl)
             .then(response => response.json())
             .then(driver => {
@@ -220,7 +220,7 @@ if (event.target.classList.contains('circuit-name')) {  // This checks if a circ
     console.log('Circuit ID:', circuitId);
 
     // Fetch circuit data and display the circuit modal
-    const circuitUrl = `${API_DOMAIN}/circuits.php?id=${circuitId}`;
+    const circuitUrl = `${API_DOMAIN}/circuits/${circuitId}`;
     console.log('CircuitUrl : ' + circuitUrl);
     fetch(circuitUrl)
         .then(response => response.json())
@@ -296,7 +296,7 @@ document.getElementById('closeDriverModal').addEventListener('click', function()
 // Function to fetch race data for the selected season and then save in cache for later use
 // Greatly improves performance after first fetch but can be erroneous (eg. undefined round data) if cache is not cleared beforehand.
 function fetchSeason(season) {
-    const url = `${API_DOMAIN}/races.php?season=${season}`;
+    const url = `${API_DOMAIN}/races/${season}`;
 
     const storedResults = localStorage.getItem(`results_${season}`);
     if (storedResults) {
@@ -499,8 +499,8 @@ function renderRaceResults(data) {
 
 // Main function that combines fetching and displaying the requested results in browseView
 function displayRaceResults(raceId) {
-    const qualifyingUrl = `${API_DOMAIN}/qualifying.php?race=${raceId}`;
-    const raceUrl = `${API_DOMAIN}/results.php?race=${raceId}`;
+    const qualifyingUrl = `${API_DOMAIN}/qualifying/${raceId}`;
+    const raceUrl = `${API_DOMAIN}/results/${raceId}`;
     
     // Fetch Qualifying Data
     fetch(qualifyingUrl)
@@ -520,7 +520,7 @@ function displayRaceResults(raceId) {
 }
 
 function renderCircuitDetails(raceId) {
-    const raceUrl = `${API_DOMAIN}/races.php?id=${raceId}`;
+    const raceUrl = `${API_DOMAIN}/races/${raceId}`;
 
     // Fetch the race details using the raceId
     fetch(raceUrl)
@@ -564,12 +564,12 @@ function renderCircuitDetails(raceId) {
 // ------------------------ The following are modal-related functions ----------------------------------------------------
 // Functions to display the race results
 function displayDriverRaceResults(driverRef, seasonRef) {
-    const driverUrl = `${API_DOMAIN}/driverResults.php?driver=${driverRef}&season=${seasonRef}`;
+    const driverUrl = `${API_DOMAIN}/driverResults/${driverRef}&/${seasonRef}`;
     fetchRaceResults(driverUrl, 'driverRaceResult');
 }
 
 function displayConstructorRaceResults(constructorRef, seasonRef) {
-    const constructorUrl = `${API_DOMAIN}/constructorResults.php?constructor=${constructorRef}&season=${seasonRef}`;
+    const constructorUrl = `${API_DOMAIN}/constructorResults/${constructorRef}/${seasonRef}`;
     fetchRaceResults(constructorUrl, 'constructorRaceResult');
 }
 
