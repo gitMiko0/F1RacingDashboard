@@ -1,4 +1,4 @@
-const API_DOMAIN = 'https://f1backend-black.vercel.app/';
+const API_DOMAIN = 'https://f1backend-black.vercel.app/api';
 let seasonResults = {}; //global variable for cache access
 // Global arrays to store favorite items
 let favoriteConstructors = JSON.parse(localStorage.getItem('favoriteConstructors')) || [];
@@ -118,7 +118,7 @@ document.getElementById('browseView').addEventListener('click', function(event) 
         console.log('Constructor ref:', constructorRef);
         console.log('Race ID Ref:', raceIdRef);
 
-        const constructorUrl = `${API_DOMAIN}/constructors.php`;
+        const constructorUrl = `${API_DOMAIN}/constructors`;
         // Fetch constructor data from the API
         fetch(constructorUrl)
             .then(response => response.json())
